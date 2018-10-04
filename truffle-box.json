@@ -1,0 +1,11 @@
+{
+  "ignore": [ "README.md", ".gitignore", "box-img-lg-template.png", "box-img-sm-template.png" ],
+  "commands": {
+    "Compile": "truffle compile",
+    "Migrate": "truffle migrate",
+    "Test contracts": "truffle test"
+  },
+  "hooks": {
+    "post-unpack": ""
+  }
+}
