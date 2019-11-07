@@ -1,4 +1,5 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.5.0;
+
 contract WorkbenchBase {
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
     event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
@@ -6,17 +7,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor (string memory applicationName, string memory workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
-    function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+    function ContractUpdated(string memory action) internal {
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -25,7 +26,6 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
 
     //Set of States
 	enum StateType { Created, InTransit, Completed}
-	
 	//List of properties
 	StateType public  State;
 	address public  InitiatingCounterparty;
@@ -33,14 +33,14 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
 	address public  PreviousCounterparty;
 	address public  SupplyChainOwner;
 	address public  SupplyChainObserver;
-	
-	function BasicProvenance(address supplyChainOwner, address supplyChainObserver) public
+
+	constructor(address supplyChainOwner, address supplyChainObserver) public
 	{
         InitiatingCounterparty = msg.sender;
         Counterparty = InitiatingCounterparty;
         SupplyChainOwner = supplyChainOwner;
         SupplyChainObserver = supplyChainObserver;
-        State = StateType.Created;  
+        State = StateType.Created;
         ContractCreated();
     }
 
@@ -48,7 +48,7 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
 	{
         if (Counterparty != msg.sender || State == StateType.Completed)
         {
-            revert();
+            revert('old CounterParty must be msg sender and not completed');
         }
 
         if (State == StateType.Created)
@@ -65,12 +65,12 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
 	{
 	    if (SupplyChainOwner != msg.sender || State == StateType.Completed)
         {
-            revert();
+            revert('complete must be called by the owner and not completed');
         }
 
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
-        Counterparty = 0x0;
+        Counterparty = address(0x0);
         ContractUpdated('Complete');
     }
 
