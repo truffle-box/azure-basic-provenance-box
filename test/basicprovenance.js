@@ -2,7 +2,6 @@ const BasicProvenance = artifacts.require("BasicProvenance")
 const truffleAssert = require('truffle-assertions');
 
 contract('BasicProvenance', accounts => {
-    const zeroAddress = '0x0000000000000000000000000000000000000000';
     const owner = accounts[0];
     const observer = accounts[1];
     const new_owner = accounts[2];
