@@ -16,7 +16,7 @@ contract('BasicProvenance', accounts => {
         assert.equal(supplyChainObserver, observer, 'observer not correctly set');
     });
 
-    it('should allow transferability of', async() => {
+    it('should allow transferability', async() => {
         const basicProvenance = await BasicProvenance.deployed();
 
         await basicProvenance.TransferResponsibility(new_owner);
@@ -31,9 +31,5 @@ contract('BasicProvenance', accounts => {
         await basicProvenance.Complete();
 
         await truffleAssert.reverts(basicProvenance.TransferResponsibility(owner));
-    })
-
-
-
-
+    });
 });
