@@ -2,14 +2,14 @@ pragma solidity ^0.5.0;
 
 contract BasicProvenance {
     //Set of States
-	enum StateType { Created, InTransit, Completed}
-	//List of properties
-	StateType public  State;
-	address public  InitiatingCounterparty;
-	address public  Counterparty;
-	address public  PreviousCounterparty;
-	address public  SupplyChainOwner;
-	address public  SupplyChainObserver;
+    enum StateType { Created, InTransit, Completed}
+    //List of properties
+    StateType public  State;
+    address public  InitiatingCounterparty;
+    address public  Counterparty;
+    address public  PreviousCounterparty;
+    address public  SupplyChainOwner;
+    address public  SupplyChainObserver;
 
     event LogContractCreated(string applicationName, string workflowName, address originatingAddress);
     event LogContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
@@ -25,7 +25,7 @@ contract BasicProvenance {
         emit LogContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 
-	constructor(address supplyChainOwner, address supplyChainObserver) public {
+    constructor(address supplyChainOwner, address supplyChainObserver) public {
         InitiatingCounterparty = msg.sender;
         Counterparty = InitiatingCounterparty;
         SupplyChainOwner = supplyChainOwner;
@@ -36,7 +36,7 @@ contract BasicProvenance {
         ContractCreated();
     }
 
-	function TransferResponsibility(address newCounterparty) public {
+    function TransferResponsibility(address newCounterparty) public {
         if (Counterparty != msg.sender || State == StateType.Completed) {
             revert("old CounterParty must be msg sender and not completed");
         }
@@ -50,8 +50,8 @@ contract BasicProvenance {
         ContractUpdated("TransferResponsibility");
     }
 
-	function Complete() public {
-	    if (SupplyChainOwner != msg.sender || State == StateType.Completed) {
+    function Complete() public {
+        if (SupplyChainOwner != msg.sender || State == StateType.Completed) {
             revert("complete must be called by the owner and not completed");
         }
         State = StateType.Completed;
