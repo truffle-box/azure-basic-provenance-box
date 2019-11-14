@@ -3,6 +3,7 @@ pragma solidity ^0.5.0;
 contract BasicProvenance {
     //Set of States
     enum StateType { Created, InTransit, Completed}
+
     //List of properties
     StateType public  State;
     address public  InitiatingCounterparty;
@@ -17,14 +18,6 @@ contract BasicProvenance {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function ContractCreated() private {
-        emit LogContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string memory action) private {
-        emit LogContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-
     constructor(address supplyChainOwner, address supplyChainObserver) public {
         InitiatingCounterparty = msg.sender;
         Counterparty = InitiatingCounterparty;
@@ -33,7 +26,7 @@ contract BasicProvenance {
         State = StateType.Created;
         ApplicationName = "BasicProvenance";
         WorkflowName = "BasicProvenance";
-        ContractCreated();
+        emit LogContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function TransferResponsibility(address newCounterparty) public {
@@ -47,7 +40,7 @@ contract BasicProvenance {
 
         PreviousCounterparty = Counterparty;
         Counterparty = newCounterparty;
-        ContractUpdated("TransferResponsibility");
+        emit LogContractUpdated(ApplicationName, WorkflowName, "TransferResponsibility", msg.sender);
     }
 
     function Complete() public {
@@ -57,6 +50,6 @@ contract BasicProvenance {
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
         Counterparty = address(0x0);
-        ContractUpdated("Complete");
+        emit LogContractUpdated(ApplicationName, WorkflowName, "Complete", msg.sender);
     }
 }

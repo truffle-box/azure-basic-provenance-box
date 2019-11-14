@@ -4,7 +4,7 @@ const truffleAssert = require('truffle-assertions');
 contract('BasicProvenance', accounts => {
     const owner = accounts[0];
     const observer = accounts[1];
-    const new_owner = accounts[2];
+    const newOwner = accounts[2];
 
     it('should return a new instance of the contract with an observer', async() => {
         const basicProvenance = await BasicProvenance.deployed();
@@ -18,18 +18,17 @@ contract('BasicProvenance', accounts => {
     it('nonowner can not transfer/complete', async() => {
         const basicProvenance = await BasicProvenance.deployed();
 
-        truffleAssert.reverts(basicProvenance.TransferResponsibility(owner, { from: new_owner}));
-        truffleAssert.reverts(basicProvenance.Complete({ from: new_owner}));
-
+        truffleAssert.reverts(basicProvenance.TransferResponsibility(newOwner, { from: newOwner}));
+        truffleAssert.reverts(basicProvenance.Complete({ from: newOwner}));
     });
 
     it('owner can transfer', async() => {
         const basicProvenance = await BasicProvenance.deployed();
 
-        await basicProvenance.TransferResponsibility(new_owner);
+        await basicProvenance.TransferResponsibility(newOwner);
         const newCounterParty = await basicProvenance.Counterparty(); 
 
-        assert.equal(newCounterParty, new_owner, 'responsibility not transferred successfully');
+        assert.equal(newCounterParty, newOwner, 'responsibility not transferred successfully');
     });
 
     it('should be only usable when not completed', async() => {
