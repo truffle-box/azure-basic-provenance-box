@@ -36,7 +36,7 @@ States
 Workflow Details
 ----------------
 
-![state diagram of the workflow](https://raw.githubusercontent.com/caleteeter/basic-provenance/master/media/c3d3c6764f6ae1e565c0929d2f2fed48.png)
+![state diagram of the workflow](https://raw.githubusercontent.com/truffle-box/azure-basic-provenance-box/master/media/c3d3c6764f6ae1e565c0929d2f2fed48.png)
 
 An instance of the Basic Provenance application's workflow starts in the Created
 state when an owner wants to begin a process for tracking ownership or
@@ -56,6 +56,6 @@ responsibility to a counterparty once and then completing the workflow.
 
 Application Files
 -----------------
-[BasicProvenance.json](https://raw.githubusercontent.com/caleteeter/basic-provenance/master/BasicProvenance.json)
+[BasicProvenance.json](https://raw.githubusercontent.com/truffle-box/azure-basic-provenance-box/master/BasicProvenance.json)
 
-[BasicProvenance.sol](https://raw.githubusercontent.com/caleteeter/basic-provenance/master/contracts/BasicProvenance.sol)
+[BasicProvenance.sol](https://raw.githubusercontent.com/truffle-box/azure-basic-provenance-box/master/contracts/BasicProvenance.sol)
